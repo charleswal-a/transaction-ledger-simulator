@@ -101,11 +101,11 @@ public class Transaction {
      * A formatted String containing information about this Transaction object
      */
     public String toString(int position) {
+        // This segment of code will make sure that spacing for the amount is correct
         int amountPos = 13;
         if (amount < 0) {
             amountPos += 10;
         }
-
         if (Double.toString(amount).length() <= 5) {
             amountPos ++;
         }

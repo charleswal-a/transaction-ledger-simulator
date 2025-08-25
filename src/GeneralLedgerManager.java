@@ -53,6 +53,8 @@ public class GeneralLedgerManager {
                 System.out.print("Selection not available.\n\nEnter a selection: ");
                 selection = s.nextLine();
                 selection = selection.toUpperCase();
+
+                // Checks to see if input is an available menu option
                 for (String o : menuOptions) {
                     if (selection.equals(o)) {
                         selectionAvailable = true;
@@ -138,6 +140,7 @@ public class GeneralLedgerManager {
                 boolean exists = ledger.exists(t);
                 int position = 0;
                 if (exists) {
+                    // Finds position of the transaction in the ledger
                     for (int i = 0; i < ledger.size(); i++) {
                         if (ledger.getLedger()[i].equals(t)) {
                             position = i+1;
@@ -172,6 +175,7 @@ public class GeneralLedgerManager {
                 if (backup == null) {
                     System.out.println("\nNo backup exists.\n");
                 } else {
+                    // Resets ledger and iterates through backup to add each backup transaction
                     ledger = new GeneralLedger();
                     for (int i = 0; i < backup.size(); i++) {
                         ledger.addTransaction((Transaction) backup.getTransaction(i + 1).clone());
@@ -184,6 +188,8 @@ public class GeneralLedgerManager {
                     System.out.println("\nNo backup exists.\n");
                 } else {
                     boolean ledgersEqual = true;
+
+                    // Compares corresponding entries in ledger and backup
                     for (int i = 0; i < ledger.size(); i++) {
                         if (!ledger.getTransaction(i + 1).equals(backup.getTransaction(i + 1))) {
                             ledgersEqual = false;
@@ -200,9 +206,9 @@ public class GeneralLedgerManager {
             else if (selection.equals("PF")) {
                 System.out.println("\nFinancial Data"
                         + "\n---------------------------------------------------------------------------------------------------\n"
-                        + "     Assets: $" + String.format(".2f%s", ledger.getTotalDebitAmount())
-                        + "\nLiabilities: $" + String.format(".2f%s", ledger.getTotalCreditAmount())
-                        + "\n  Net Worth: $" + String.format(".2f%s", (ledger.getTotalDebitAmount() - ledger.getTotalCreditAmount())) + "\n");
+                        + "     Assets: $" + String.format("%.2f", ledger.getTotalDebitAmount())
+                        + "\nLiabilities: $" + String.format("%.2f", ledger.getTotalCreditAmount())
+                        + "\n  Net Worth: $" + String.format("%.2f", (ledger.getTotalDebitAmount() - ledger.getTotalCreditAmount())) + "\n");
             }
             else if (selection.equals("Q")) {
                 quitPressed = true;

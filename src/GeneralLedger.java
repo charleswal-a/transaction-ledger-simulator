@@ -54,6 +54,7 @@ public class GeneralLedger {
                 throw new InvalidTransactionException("Transaction amount can not be 0.");
             }
 
+            // This segment of code will throw exceptions for incorrect date formatting
             String[] dateArr = newTransaction.getDate().split("/");
             if (dateArr.length != 3) {
                 throw new InvalidTransactionException("Transaction date should be in the format of yyyy/mm/dd.");
@@ -71,12 +72,14 @@ public class GeneralLedger {
                 throw new InvalidTransactionException("Transaction date should be in the format of yyyy/mm/dd.");
             }
 
+            // Checks to make sure that transaction is not in ledger already
             for (Transaction t : ledger) {
                 if (t != null && t.equals(newTransaction)) {
                     throw new TransactionAlreadyExistsException("Transaction already exists in ledger.");
                 }
             }
 
+            // Checks to create the new position for transaction based on chronological order
             String[] newTransDateArr = newTransaction.getDate().split("/");
             int newPos = 0;
             for (int i = 0; i < MAX_TRANSACTIONS; i++) {
@@ -103,12 +106,14 @@ public class GeneralLedger {
                 }
             }
 
+            // Moves other transactions back to make space for new transaction
             for (int i = MAX_TRANSACTIONS - 2; i >= newPos; i--) {
                 ledger[i+1] = ledger[i];
             }
             ledger[newPos] = newTransaction;
             transactionCount++;
 
+            // Modifies credit/debit amounts based on transaction
             if (newTransaction.getAmount() > 0) {
                 totalDebitAmount += newTransaction.getAmount();
             } else {
@@ -134,12 +139,14 @@ public class GeneralLedger {
                 throw new InvalidLedgerPositionException("Transaction not removed: No such transaction in the general ledger");
             }
 
+            // Changes credit/debit amounts based on transaction
             if (ledger[position-1].getAmount() > 0) {
                 totalDebitAmount += ledger[position-1].getAmount();
             } else {
                 totalCreditAmount += -1 * ledger[position-1].getAmount();
             }
 
+            // Moves transactions in the ledger to maintain chronological order
             for (int i = position; i < MAX_TRANSACTIONS; i++) {
                 ledger[i - 1] = ledger[i];
             }
@@ -185,6 +192,8 @@ public class GeneralLedger {
      */
     public static void filter(GeneralLedger generalLedger, String date) {
         String table = "\nNo.    Date          Debit    Credit    Description\n---------------------------------------------------------------------------------------------------\n";
+
+        // Iterates through ledger to find transactions that fit the filter
         for (int i = 0; i < MAX_TRANSACTIONS; i++) {
             if (generalLedger.ledger[i] != null && generalLedger.ledger[i].getDate().equals(date)) {
                 table += generalLedger.ledger[i].toString(i+1) + "\n";
