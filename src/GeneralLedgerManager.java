@@ -4,12 +4,6 @@ import java.util.Scanner;
  * This class represents a system that the user can interact with to manipulate the ledger(s)
  *
  * @author Charles Walford
- * Solar ID: 116237064
- * Email: charles.walford@stonybrook.edu
- * Assignment number: 1
- * Course: CSE 214
- * Recitation number: 1
- * TAs: Yvette Han, Vincent Zheng
  */
 public class GeneralLedgerManager {
     /**
